@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
     return res.status(400).send('Invalid request body. Please provide an array of websites.');
   }
 
-  const results = [];
+  const results =  [];
   for (const website of websites) {
     const result = await scrapeEmails(website);
     results.push(result);
@@ -21,4 +21,4 @@ router.get('/', (req, res) => {
   res.status(404).send('This endpoint is not available for GET requests. Please use POST to scrape emails.');
 });
 
-module.exports = router;
+module.exports =  router;
