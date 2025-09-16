@@ -7,9 +7,8 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "cheerio": "^1.0.0-rc.10",
-    "express": "^4.17.1",
-    "json2csv": "^5.0.6"
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.19.2"
   }
 }

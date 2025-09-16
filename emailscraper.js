@@ -1,16 +1,10 @@
 
-const fs = require('fs');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { Parser } = require('json2csv');
 const url = require('url');
 
-const websitesFilePath = 'websites.txt';
-const emailsFilePath = 'emails.csv';
 const maxPagesPerWebsite = 10;
 const requestDelay = 1000; // 1 second
-
-const visitedUrls = new Set();
 
 const scrapeEmails = async (website) => {
     const emails = new Set();
