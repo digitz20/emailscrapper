@@ -4,6 +4,7 @@
   "description": "A Node.js script to scrape emails from websites.",
   "main": "emailscraper.js",
   "scripts": {
+    "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "engines": {
@@ -12,8 +13,8 @@
   "dependencies": {
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
-    "express": "^4.21.2",
-    "nodemon": "^3.1.10"
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/digitz20/emailscrapper/issues"
   },
-  "homepage": "https://github.com/digitz20/emailscrapper#readme"
+  "homepage": "https://github.com/digitz20/emailscrapper#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
