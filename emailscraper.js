@@ -2,8 +2,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const url = require('url');
-const { wrapper } = require('axios-cookiejar-support');
-const { CookieJar } = require('tough-cookie');
 
 const maxPagesPerWebsite = 10;
 const requestDelay = 1000; // 1 second
@@ -16,6 +14,8 @@ const userAgents = [
 ];
 
 const scrapeEmails = async (website) => {
+    const { wrapper } = await import('axios-cookiejar-support');
+    const { CookieJar } = await import('tough-cookie');
     const jar = new CookieJar();
     const client = wrapper(axios.create({ jar }));
     const emails = new Set();
