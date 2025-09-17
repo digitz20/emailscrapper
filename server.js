@@ -7,6 +7,7 @@ const port = 5677;
 app.use(cors())
 
 app.use(express.json());
+app.use(express.text());
 
 const emailScrapperRoutes = require('./routes/emailscrapper');
 

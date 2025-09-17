@@ -2,11 +2,22 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const url = require('url');
+const { wrapper } = require('axios-cookiejar-support');
+const { CookieJar } = require('tough-cookie');
 
 const maxPagesPerWebsite = 10;
 const requestDelay = 1000; // 1 second
 
+const userAgents = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:89.0) Gecko/20100101 Firefox/89.0',
+];
+
 const scrapeEmails = async (website) => {
+    const jar = new CookieJar();
+    const client = wrapper(axios.create({ jar }));
     const emails = new Set();
     const queue = [website];
     const visited = new Set(); // Use a local visited set for each website
@@ -21,10 +32,14 @@ const scrapeEmails = async (website) => {
         }
 
         try {
-            await new Promise(resolve => setTimeout(resolve, requestDelay));
-            const { data } = await axios.get(currentUrl, {
+            await new Promise(resolve => setTimeout(resolve, requestDelay + Math.random() * 2000));
+            const { data } = await client.get(currentUrl, {
                 headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                    'User-Agent': userAgents[Math.floor(Math.random() * userAgents.length)],
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Referer': website
                 }
             });
 
@@ -60,4 +75,13 @@ const scrapeEmails = async (website) => {
     return { website, emails: Array.from(emails) };
 };
 
-module.exports = { scrapeEmails };
+const processWebsites = async (websites) => {
+    const results = [];
+    for (const website of websites) {
+        const result = await scrapeEmails(website);
+        results.push(result);
+    }
+    return results;
+};
+
+module.exports = { scrapeEmails, processWebsites };
